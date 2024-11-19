@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block page_title %} List Users {% endblock %}
+
+{% block container %}
+    <div class="d-flex flex-row justify-content-between">
+        <h1>Users List</h1>
+    </div>
+
+    {% if users %}
+        <table class="table table-hover table-light mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Public ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Created at</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ user.public_id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ user.created_at }}</td>
+                        <td>
+                            <a href="{{ url_for("users.view", public_id=user.public_id) }}">View</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <span>
+            No users available. :(
+        </span>
+    {% endif %}
+
+
+{% endblock %}

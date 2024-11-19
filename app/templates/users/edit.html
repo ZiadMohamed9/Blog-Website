@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_title %} Edit User Role {% endblock %}
+
+{% block container %}
+    <form action="{{ url_for('users.update', public_id=user.public_id) }}" method="POST" class="form" role="form">
+        {{ form.hidden_tag() }}
+
+        {{ wtf.form_field(form.role) }}
+
+        {{ wtf.form_errors(form, hiddens="only") }}
+
+        <button type="submit" class="btn btn-secondary">Edit</button>
+    </form>
+{% endblock %}

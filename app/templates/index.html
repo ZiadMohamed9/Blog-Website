@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% import "bootstrap/utils.html" as utils %}
+
+{% block page_title %} Home {% endblock %}
+
+{% block container %}
+<h1>Example Flask Application</h1>
+<h2>
+    {% if current_user %}
+        Welcome {{ current_user.name }}
+    {% else %}
+        Welcome to the Flask Starter Structure
+    {% endif  %}
+</h2>
+{% endblock %}

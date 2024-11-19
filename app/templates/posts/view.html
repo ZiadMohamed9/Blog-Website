@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block page_title %} View Post {% endblock %}
+
+{% block container %}
+    <div class="d-flex flex-row justify-content-between mb-5">
+        <h1>Post</h1>
+        {% if current_user.id == post.author_id or current_user.role == 'Admin' %}
+            <div class="d-flex flex-row gap-3 text-light">
+                <a class="btn btn-secondary ml-3 mt-auto mb-auto" href="{{ url_for("posts.edit", public_id=post.public_id) }}">
+                    Edit
+                </a>
+                <button class="btn btn-danger ml-3 mt-auto mb-auto" onclick="deletePost('{{ post.public_id }}')">
+                    Delete
+                </button>
+            </div>
+        {% endif %}
+    </div>
+    <div>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" value="{{ post.title }}" disabled>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <input type="text" class="form-control" id="content" value="{{ post.content }}" disabled>
+        </div>
+    </div>
+
+    <script>
+        function deletePost(public_id) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                fetch("{{ url_for('posts.delete', public_id='') }}" + public_id, {
+                    method: 'DELETE'
+                }).then(response => {
+                    if (response.ok) {
+                            location.reload();  // Refresh the page after deletion
+                    }
+                }).catch(error => {
+                    alert('Failed to delete the post. Please try again later.');
+                    console.error('Error:', error);
+                });
+            }
+        }
+    </script>
+{% endblock %}
+

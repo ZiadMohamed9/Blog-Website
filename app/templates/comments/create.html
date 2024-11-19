@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_title %} Add a comment {% endblock %}
+
+{% block container %}
+    <form action="{{ url_for('actions.save_comment', post_id=post_id) }}" method="POST" class="form" role="form">
+        {{ form.hidden_tag() }}
+
+        {{ wtf.form_field(form.text) }}
+
+        {{ wtf.form_errors(form, hiddens="only") }}
+
+        <button type="submit" class="btn btn-secondary">Comment</button>
+    </form>
+{% endblock %}

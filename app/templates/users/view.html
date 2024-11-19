@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block page_title %} View User {% endblock %}
+
+{% block container %}
+    <div class="d-flex flex-row justify-content-between mb-5">
+        <h1>User</h1>
+        <div class="d-flex flex-row gap-3 text-light">
+            <a class="btn btn-secondary ml-3 mt-auto mb-auto" href="{{ url_for("users.edit", public_id=user.public_id) }}">
+                Edit User Role
+            </a>
+            <button class="btn btn-danger ml-3 mt-auto mb-auto" onclick="removeUser('{{ user.public_id }}')">
+                Remove
+            </button>
+        </div>
+    </div>
+    <div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" value="{{ user.name }}" disabled>
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" value="{{ user.email }}" disabled>
+        </div>
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <input type="text" class="form-control" id="role" value="{{ user.role }}" disabled>
+        </div>
+    </div>
+
+    <script>
+        function removeUser(public_id) {
+            if (confirm('Are you sure you want to remove this user?')) {
+                fetch("{{ url_for('users.remove', public_id='') }}" + public_id, {
+                    method: 'DELETE'
+                }).then(response => {
+                    if (response.ok) {
+                            location.reload();  // Refresh the page after deletion
+                    }
+                }).catch(error => {
+                    alert('Failed to remove the user. Please try again later.');
+                    console.error('Error:', error);
+                });
+            }
+        }
+    </script>
+{% endblock %}
+

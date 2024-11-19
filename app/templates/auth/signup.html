@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_title %} Signup {% endblock %}
+
+{% block container %}
+    <form action="{{ url_for('auth.signup') }}" method="POST" class="form" role="form">
+        {{ form.hidden_tag() }}
+
+        {{ wtf.form_field(form.name) }}
+        {{ wtf.form_field(form.username) }}
+        {{ wtf.form_field(form.email) }}
+        {{ wtf.form_field(form.password) }}
+        {{ wtf.form_field(form.role) }}
+
+        {{ wtf.form_errors(form, hiddens="only") }}
+
+        <button type="submit" class="btn btn-secondary mr-5">Signup</button>
+        <a href="{{ url_for('auth.login') }}">Already have an account? Login</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_title %} List Posts {% endblock %}
+
+{% block container %}
+    {% if current_user.role != 'Reader' %}
+        <div class="d-flex flex-row justify-content-between">
+            <h1>Posts</h1>
+            <a class="btn btn-secondary mt-auto mb-auto" href="{{ url_for("posts.create") }}">
+                Create New Post
+            </a>
+        </div>
+    {% endif %}
+    {% if posts %}
+        <table class="table table-hover table-light mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Published on</th>
+                    <th scope="col">Updated at</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Comments</th>
+                    <th scope="col">Likes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ post.title }}</td>
+                        <td>{{ post.content }}</td>
+                        <td>{{ post.created_at }}</td>
+                        <td>{{ post.updated_at }}</td>
+                        <td>
+                            <a href="{{ url_for("posts.view", public_id=post.public_id) }}">View Post</a>
+                        </td>
+                        <td>
+                            <a href="{{ url_for("actions.list_comments", post_id=post.id) }}">Comments</a>
+                        </td>
+                        <!-- Like Button -->
+                        <td>
+                            <form action="{{ url_for('actions.like_post', post_id=post.id) }}" method="POST">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-thumbs-up"></i> Like ({{ post.likes|length }})
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <span>
+            No posts available. :(
+        </span>
+    {% endif %}
+
+
+{% endblock %}
